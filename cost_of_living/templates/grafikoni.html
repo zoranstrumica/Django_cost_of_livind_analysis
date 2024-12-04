@@ -1,0 +1,171 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+<main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Data From CSV File</h1>
+      <p>For Cost of Living Analysis</p>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+          <li class="breadcrumb-item active">Data</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+
+          
+          
+          
+          <div class="card">
+            <h5 class="card-title">Average Monthly Income by Regions CHART</h5>
+            <canvas id="incomeByRegionChart" width="800" height="200"></canvas>
+        </div>
+          <div class="card">
+            <h5 class="card-title">Average Cost Of Living Chart by Regions CHART</h5>
+            <canvas id="costOfLivingChart" width="800" height="200"></canvas>
+        </div>
+
+        </div>
+      </div>
+      
+    </section>
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-6">
+
+          <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Drzavi koi se zemeni za analiza</h5>
+                <p><strong>Broj na drzavi koi se zemeni za analiza</strong> {{ number_of_unique_countries }}</p>
+              <ol>
+                {% for country in unique_countries %}
+                <li>{{ country }}</li>
+                {% endfor %}
+            </ol>
+           
+                </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+
+          
+
+            <div class="card">
+                <div class="card-body">
+                <h5 class="card-title">Regioni koi se zemeni za analiza</h5>
+                <p><strong>Broj na Regioni koi se zemeni za analiza</strong> {{ number_of_unique_regions }}</p>
+                  <ol>
+                    {% for region in unique_regions %}
+                    <li>{{ region }}</li>
+                    {% endfor %}
+                </ol>
+                    </ul>
+                </div>
+              </div>
+
+          
+
+        
+
+        </div>
+      </div>
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Податоци од Django
+        const regions = {{ regions|safe }};
+        const averageIncome = {{ average_income|safe }};
+        const averageCostOfLiving = {{ average_cost_of_living|safe }};
+
+        // Креирање на графикон za income
+        const ctx1 = document.getElementById('incomeByRegionChart').getContext('2d');
+        new Chart(ctx1, {
+            type: 'bar',
+            data: {
+                labels: regions, // Имиња на региони
+                datasets: [
+                    {
+                        label: 'Average Monthly Income',
+                        data: averageIncome, // Просечни приходи
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1,
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Region'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Average Income (USD)'
+                        },
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+        // Креирање на графикон za cost of living
+        const ctx2 = document.getElementById('costOfLivingChart').getContext('2d');
+        new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: regions, // Имиња на региони
+                datasets: [
+                    {
+                        label: 'Cost Of Living',
+                        data: averageCostOfLiving, // Просечни приходи
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)', // Светло сина нијанса со транспарентност
+                        borderColor: 'rgba(54, 162, 235, 1)',      // Темно сина нијанса за границата
+                        borderWidth: 1,
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Region'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Average Income (USD)'
+                        },
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+ 
+{% endblock content %}

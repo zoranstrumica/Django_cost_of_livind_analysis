@@ -1,0 +1,546 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+
+<main id="main" class="main">
+
+  <div class="pagetitle">
+    <h1>Dashboard</h1>
+    <h1>COST OF LIVING ANALYSIS</h1>
+    
+  </div><!-- End Page Title -->
+
+  <section class="section dashboard">
+    <div class="row">
+
+      <!-- Left side columns -->
+      <div class="col-lg-12">
+        <div class="row">
+
+          <!-- Sales Card -->
+          <div class="col-xxl-4 col-md-6">
+            <div class="card info-card sales-card">
+
+              <div class="filter">
+                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                  <li><a class="dropdown-item" href="{% url 'africa_analysis' %}">Africa</a></li>
+                  <li><a class="dropdown-item" href="{% url 'asia_analysis' %}">Asia</a></li>
+                  <li><a class="dropdown-item" href="{% url 'europe_analysis' %}">Europe</a></li>
+                  <li><a class="dropdown-item" href="{% url 'north_america_analysis' %}">North America</a></li>
+                  <li><a class="dropdown-item" href="{% url 'oceania_analysis' %}">Oceania</a></li>
+                  <li><a class="dropdown-item" href="{% url 'south_america_analysis' %}">South America</a></li>
+                </ul>
+              </div>
+
+              <div class="card-body">
+                <h5 class="card-title">Average cost of living by Regions </h5>
+
+                <div class="d-flex align-items-center">
+                  
+                  <div class="ps-3">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>Region</th>
+                          <th>Average Cost of Living</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for region in averages_by_region %}
+                        <tr>
+                          <td>{{ region.Region }}</td>
+                          <td>${{ region.Average_Cost_of_Living|floatformat:2 }}</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                    <span class="text-success medium pt-1 fw-bold">For All data  {{ average_cost_of_living }} USD</span><br>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Sales Card -->
+          <!-- Sales Card -->
+          <div class="col-xxl-4 col-md-6">
+            <div class="card info-card sales-card">
+
+              <div class="filter">
+                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                  <li><a class="dropdown-item" href="{% url 'africa_analysis' %}">Africa</a></li>
+                  <li><a class="dropdown-item" href="{% url 'asia_analysis' %}">Asia</a></li>
+                  <li><a class="dropdown-item" href="{% url 'europe_analysis' %}">Europe</a></li>
+                  <li><a class="dropdown-item" href="{% url 'north_america_analysis' %}">North America</a></li>
+                  <li><a class="dropdown-item" href="{% url 'oceania_analysis' %}">Oceania</a></li>
+                  <li><a class="dropdown-item" href="{% url 'south_america_analysis' %}">South America</a></li>
+                </ul>
+              </div>
+
+              <div class="card-body">
+                <h5 class="card-title">Maximum cost of living by Regions </h5>
+
+                <div class="d-flex align-items-center">
+                  
+                  <div class="ps-3">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>Region</th>
+                          <th>Max Cost of Living</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for region in max_by_region %}
+                        <tr>
+                          <td>{{ region.Region }}</td>
+                          <td>${{ region.Max_Cost_of_Living|floatformat:2 }}</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                    <span class="text-success medium pt-1 fw-bold">For All data  {{ max_cost_of_living }} USD</span><br>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div><!-- End Sales Card -->
+          <!-- Sales Card -->
+          <div class="col-xxl-4 col-md-6">
+            <div class="card info-card sales-card">
+
+              <div class="filter">
+                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                  <li><a class="dropdown-item" href="{% url 'africa_analysis' %}">Africa</a></li>
+                  <li><a class="dropdown-item" href="{% url 'asia_analysis' %}">Asia</a></li>
+                  <li><a class="dropdown-item" href="{% url 'europe_analysis' %}">Europe</a></li>
+                  <li><a class="dropdown-item" href="{% url 'north_america_analysis' %}">North America</a></li>
+                  <li><a class="dropdown-item" href="{% url 'oceania_analysis' %}">Oceania</a></li>
+                  <li><a class="dropdown-item" href="{% url 'south_america_analysis' %}">South America</a></li>
+                </ul>
+              </div>
+
+              <div class="card-body">
+                <h5 class="card-title">Minimum cost of living by Regions </h5>
+
+                <div class="d-flex align-items-center">
+                  
+                  <div class="ps-3">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>Region</th>
+                          <th>Min Cost of Living</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for region in min_by_region %}
+                        <tr>
+                          <td>{{ region.Region }}</td>
+                          <td>${{ region.Min_Cost_of_Living|floatformat:2 }}</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                    <span class="text-success medium pt-1 fw-bold">For All data  {{ min_cost_of_living }} USD</span><br>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div><!-- End Sales Card -->
+          <!-- Revenue Card -->
+          <div class="col-xxl-4 col-md-6">
+            <div class="card info-card sales-card">
+
+              <div class="filter">
+                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                  <li><a class="dropdown-item" href="{% url 'australia_analysis' %}">Australia</a></li>
+                  <li><a class="dropdown-item" href="{% url 'germany_analysis' %}">Germany</a></li>
+                  <li><a class="dropdown-item" href="#">Other</a></li>
+                  
+                </ul>
+              </div>
+
+              <div class="card-body">
+                <h5 class="card-title">Average cost of living by Countries </h5>
+
+                <div class="d-flex align-items-center">
+                  
+                  <div class="ps-3">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>Country</th>
+                          <th>Avg Cost of Living by Countries</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for country in averages_by_country %}
+                        <tr>
+                          <td>{{ country.Country }}</td>
+                          <td>${{ country.Average_Cost_of_Living|floatformat:2 }}</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                    <span class="text-success medium pt-1 fw-bold">For All data  {{ average_cost_of_living }} USD</span><br>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div><!-- End Sales Card -->
+          <div class="col-xxl-4 col-md-6">
+            <div class="card info-card sales-card">
+
+              <div class="filter">
+                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                  <li><a class="dropdown-item" href="{% url 'australia_analysis' %}">Australia</a></li>
+                  <li><a class="dropdown-item" href="{% url 'germany_analysis' %}">Germany</a></li>
+                  <li><a class="dropdown-item" href="#">Other</a></li>
+                  
+                </ul>
+              </div>
+
+              <div class="card-body">
+                <h5 class="card-title">Maximum cost of living by Countries </h5>
+
+                <div class="d-flex align-items-center">
+                  
+                  <div class="ps-3">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>Country</th>
+                          <th>Max Cost of Living by Countries</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for country in max_by_country %}
+                        <tr>
+                          <td>{{ country.Country }}</td>
+                          <td>${{ country.Max_Cost_of_Living|floatformat:2 }}</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                    <span class="text-success medium pt-1 fw-bold">For All data  {{ max_cost_of_living }} USD</span><br>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div><!-- End Sales Card -->
+          <div class="col-xxl-4 col-md-6">
+            <div class="card info-card sales-card">
+
+              <div class="filter">
+                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                  <li><a class="dropdown-item" href="{% url 'australia_analysis' %}">Australia</a></li>
+                  <li><a class="dropdown-item" href="{% url 'germany_analysis' %}">Germany</a></li>
+                  <li><a class="dropdown-item" href="#">Other</a></li>
+                  
+                </ul>
+              </div>
+
+              <div class="card-body">
+                <h5 class="card-title">Minimum cost of living by Countries </h5>
+
+                <div class="d-flex align-items-center">
+                  
+                  <div class="ps-3">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>Country</th>
+                          <th>Min Cost of Living by Countries</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for country in min_by_country %}
+                        <tr>
+                          <td>{{ country.Country }}</td>
+                          <td>${{ country.Min_Cost_of_Living|floatformat:2 }}</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                    <span class="text-success medium pt-1 fw-bold">For All data  {{ min_cost_of_living }} USD</span><br>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div><!-- End Sales Card -->
+          <hr>
+          
+          <div class="col-xxl-4 col-md-6">
+            <div class="card info-card sales-card">
+
+              <div class="filter">
+                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                  <li><a class="dropdown-item" href="{% url 'africa_analysis' %}">Africa</a></li>
+                  <li><a class="dropdown-item" href="{% url 'asia_analysis' %}">Asia</a></li>
+                  <li><a class="dropdown-item" href="{% url 'europe_analysis' %}">Europe</a></li>
+                  <li><a class="dropdown-item" href="{% url 'north_america_analysis' %}">North America</a></li>
+                  <li><a class="dropdown-item" href="{% url 'oceania_analysis' %}">Oceania</a></li>
+                  <li><a class="dropdown-item" href="{% url 'south_america_analysis' %}">South America</a></li>
+                  
+                </ul>
+              </div>
+
+              <div class="card-body">
+                <h5 class="card-title">Average from Average Monthly Income by Regions </h5>
+
+                <div class="d-flex align-items-center">
+                  
+                  <div class="ps-3">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>region</th>
+                          <th>Average from Average Monthly Income</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for region in averages_income_by_region %}
+                        <tr>
+                          <td>{{ region.Region }}</td>
+                          <td>${{ region.Average_Income_By_Region|floatformat:2 }}</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                    <span class="text-success medium pt-1 fw-bold">For All data  ${{ average_monthly_income }} USD</span><br>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div><!-- End Sales Card -->
+          <div class="col-xxl-4 col-md-6">
+            <div class="card info-card sales-card">
+
+              <div class="filter">
+                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                  <li><a class="dropdown-item" href="{% url 'africa_analysis' %}">Africa</a></li>
+                  <li><a class="dropdown-item" href="{% url 'asia_analysis' %}">Asia</a></li>
+                  <li><a class="dropdown-item" href="{% url 'europe_analysis' %}">Europe</a></li>
+                  <li><a class="dropdown-item" href="{% url 'north_america_analysis' %}">North America</a></li>
+                  <li><a class="dropdown-item" href="{% url 'oceania_analysis' %}">Oceania</a></li>
+                  <li><a class="dropdown-item" href="{% url 'south_america_analysis' %}">South America</a></li>
+                  
+                </ul>
+              </div>
+
+              <div class="card-body">
+                <h5 class="card-title">Maximum from Average Monthly Income by Regions </h5>
+
+                <div class="d-flex align-items-center">
+                  
+                  <div class="ps-3">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>region</th>
+                          <th>Maximum from Average Monthly Income</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for region in max_income_by_region %}
+                        <tr>
+                            <td>{{ region.Region }}</td>
+                            <td>${{ region.Max_Income_By_Region|floatformat:2 }}</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                    <span class="text-success medium pt-1 fw-bold">For All data  {{ max_monthly_income }} USD</span><br>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div><!-- End Sales Card -->
+          <div class="col-xxl-4 col-md-6">
+            <div class="card info-card sales-card">
+
+              <div class="filter">
+                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                  <li><a class="dropdown-item" href="{% url 'africa_analysis' %}">Africa</a></li>
+                  <li><a class="dropdown-item" href="{% url 'asia_analysis' %}">Asia</a></li>
+                  <li><a class="dropdown-item" href="{% url 'europe_analysis' %}">Europe</a></li>
+                  <li><a class="dropdown-item" href="{% url 'north_america_analysis' %}">North America</a></li>
+                  <li><a class="dropdown-item" href="{% url 'oceania_analysis' %}">Oceania</a></li>
+                  <li><a class="dropdown-item" href="{% url 'south_america_analysis' %}">South America</a></li>
+                  
+                </ul>
+              </div>
+
+              <div class="card-body">
+                <h5 class="card-title">Minimum from Average Monthly Income by Regions </h5>
+
+                <div class="d-flex align-items-center">
+                  
+                  <div class="ps-3">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>region</th>
+                          <th>Minimum from Average Monthly Income</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for region in min_income_by_region %}
+                         <tr>
+                          <td>{{ region.Region }}</td>
+                        <td>${{ region.Min_Income_By_Region|floatformat:2 }}</td>
+                      </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                    <span class="text-success medium pt-1 fw-bold">For All data  {{ min_monthly_income }} USD</span><br>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div><!-- End Sales Card -->
+
+          <div class="col-xxl-4 col-md-6">
+            <div class="card info-card sales-card">
+
+              <div class="filter">
+                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                  <li><a class="dropdown-item" href="{% url 'australia_analysis' %}">Australia</a></li>
+                  <li><a class="dropdown-item" href="{% url 'germany_analysis' %}">Germany</a></li>
+                  <li><a class="dropdown-item" href="#">Other</a></li>
+                  
+                </ul>
+              </div>
+
+              <div class="card-body">
+                <h5 class="card-title">Average from Average Monthly Income by Countries </h5>
+
+                <div class="d-flex align-items-center">
+                  
+                  <div class="ps-3">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>region</th>
+                          <th>Average from Average Monthly Income</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for country in averages_income_by_country %}
+                        <tr>
+                          <td>{{ country.Country }}</td>
+                          <td>${{ country.Average_Income_By_Country|floatformat:2 }}</td>
+                          </tr>
+                          {% endfor %}
+                      </tbody>
+                    </table>
+                    <span class="text-success medium pt-1 fw-bold">For All data  ${{ average_monthly_income }} USD</span><br>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div><!-- End Sales Card -->
+          <div class="col-xxl-4 col-md-6">
+            <div class="card info-card sales-card">
+
+              <div class="filter">
+                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                  <li><a class="dropdown-item" href="{% url 'australia_analysis' %}">Australia</a></li>
+                  <li><a class="dropdown-item" href="{% url 'germany_analysis' %}">Germany</a></li>
+                  <li><a class="dropdown-item" href="#">Other</a></li>
+                  
+                </ul>
+              </div>
+
+              <div class="card-body">
+                <h5 class="card-title">Maximum from Average Monthly Income by Countries </h5>
+
+                <div class="d-flex align-items-center">
+                  
+                  <div class="ps-3">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>region</th>
+                          <th>Maximum from Average Monthly Income</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                          {% for country in max_income_by_country %}
+                          <tr>
+                              <td>{{ country.Country }}</td>
+                              <td>${{ country.Max_Income_By_Country|floatformat:2 }}</td>
+                          </tr>
+                          {% endfor %}
+                      </tbody>
+                    </table>
+                    <span class="text-success medium pt-1 fw-bold">For All data  {{ max_monthly_income }} USD</span><br>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div><!-- End Sales Card -->
+          <div class="col-xxl-4 col-md-6">
+            <div class="card info-card sales-card">
+
+              <div class="filter">
+                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                  <li><a class="dropdown-item" href="{% url 'australia_analysis' %}">Australia</a></li>
+                  <li><a class="dropdown-item" href="{% url 'germany_analysis' %}">Germany</a></li>
+                  <li><a class="dropdown-item" href="#">Other</a></li>
+                  
+                </ul>
+              </div>
+
+              <div class="card-body">
+                <h5 class="card-title">Minimum from Average Monthly Income by Countries </h5>
+
+                <div class="d-flex align-items-center">
+                  
+                  <div class="ps-3">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>region</th>
+                          <th>Minimum from Average Monthly Income</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for country in min_income_by_country %}
+                          <tr>
+                            <td>{{ country.Country }}</td>
+                            <td>${{ country.Min_Income_By_Country|floatformat:2 }}</td>
+                          </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                    <span class="text-success medium pt-1 fw-bold">For All data  {{ min_monthly_income }} USD</span><br>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div><!-- End Sales Card -->
+
+        </div>
+      </div>
+
+      
+
+    </div>
+  </section>
+
+</main><!-- End #main -->
+               
+{% endblock content %}

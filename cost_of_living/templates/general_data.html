@@ -1,0 +1,377 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+<main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Data From CSV File</h1>
+      <p>For Cost of Living Analysis</p>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+          <li class="breadcrumb-item active">Data</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Data for Cost of Living Analysis</h5>
+              
+
+              <!-- Table with stripped rows -->
+              <table class="table datatable">
+                <thead>
+                    <tr>
+                        <th>Country</th>
+                        <th>Year</th>
+                        <th>Av_Month_Income</th>
+                        <th>Cost_of_Living</th>
+                        <th>Housing_Cost_%</th>
+                        <th>Tax_Rate</th>
+                        <th>Savings_%</th>
+                        <th>Healt_Cost_%</th>
+                        <th>Educ_Cost_%</th>
+                        <th>Transp_Cost_%</th>
+                        <th>Region</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                  {% for row in cost_of_living_data %}
+                  <tr>
+                      <td>{{ row.Country }}</td> 
+                      <td>{{ row.Year }}</td>
+                      <td>{{ row.Average_Monthly_Income }}</td>
+                      <td>{{ row.Cost_of_Living }}</td>
+                      <td>{{ row.Housing_Cost_Percentage }}</td>
+                      <td>{{ row.Tax_Rate }}</td>
+                      <td>{{ row.Savings_Percentage }}</td>
+                      <td>{{ row.Healthcare_Cost_Percentage }}</td>
+                      <td>{{ row.Education_Cost_Percentage }}</td>
+                      <td>{{ row.Transportation_Cost_Percentage }}</td>
+                      <td>{{ row.Region }}</td>
+                      
+                  </tr>
+                  {% endfor %}
+              </tbody>
+            </table>
+              <!-- End Table with stripped rows -->
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Basic Statistics for Cost of Living Analysis</h5>
+              
+
+              <!-- Table with stripped rows -->
+              {% comment %} <table class="table datatable"> {% endcomment %}
+                <table class="table datatable">
+                    <thead>
+                        <tr>
+                            <th>Метрика</th>
+                            <th>Count</th>
+                            <th>Mean</th>
+                            <th>Std</th>
+                            <th>Min</th>
+                            <th>25%</th>
+                            <th>50%</th>
+                            <th>75%</th>
+                            <th>Max</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for metric, values in basic_stats.items %}
+                        <tr>
+                            <td>{{ metric }}</td>
+                            <td>{{ values.count|floatformat:2 }}</td>
+                            <td>{{ values.mean|floatformat:2 }}</td>
+                            <td>{{ values.std|floatformat:2 }}</td>
+                            <td>{{ values.min|floatformat:2 }}</td>
+                            <td>{{ values.percent_25|floatformat:2 }}</td>
+                            <td>{{ values.percent_50|floatformat:2 }}</td>
+                            <td>{{ values.percent_75|floatformat:2 }}</td>
+                            <td>{{ values.max|floatformat:2 }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+              <!-- End Table with stripped rows -->
+            </div>
+          </div>
+          <div class="card">
+            <h5 class="card-title">Basic Statistics (Cost of Living (usd) )</h5>
+            <canvas id="costOfLivingTrend" width="800" height="200"></canvas>
+        </div>
+          <div class="card">
+            <h5 class="card-title">Basic Statistics (Average Monthly Income (usd) )</h5>
+            <canvas id="averageMonthlyIncomeChart" width="800" height="200"></canvas>
+        </div>
+          <div class="card">
+            <h5 class="card-title">Basic Statistics (Savings Percentage (%) )</h5>
+            <canvas id="savingsPercentage" width="800" height="200"></canvas>
+        </div>
+          <div class="card">
+            <h5 class="card-title">Basic Statistics (Education Costs (%), Healthcare Costs (%), Transportation Costs (%), Housing Costs (%))</h5>
+            <canvas id="costOfLivingChart" width="800" height="200"></canvas>
+        </div>
+
+        </div>
+      </div>
+      
+    </section>
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-6">
+
+          <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Drzavi koi se zemeni za analiza</h5>
+                <p><strong>Broj na drzavi koi se zemeni za analiza</strong> {{ number_of_unique_countries }}</p>
+              <ol>
+                {% for country in unique_countries %}
+                <li>{{ country }}</li>
+                {% endfor %}
+            </ol>
+           
+                </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+
+          
+
+            <div class="card">
+                <div class="card-body">
+                <h5 class="card-title">Regioni koi se zemeni za analiza</h5>
+                <p><strong>Broj na Regioni koi se zemeni za analiza</strong> {{ number_of_unique_regions }}</p>
+                  <ol>
+                    {% for region in unique_regions %}
+                    <li>{{ region }}</li>
+                    {% endfor %}
+                </ol>
+                    </ul>
+                </div>
+              </div>
+
+          
+
+        
+
+        </div>
+      </div>
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Податоци од Django
+        const years = {{ years|safe }};
+        const educationCosts = {{ education_costs|safe }};
+        const healthcareCosts = {{ healthcare_costs|safe }};
+        const transportationCosts = {{ transportation_costs|safe }};
+        const housingCosts = {{ housing_costs|safe }};
+        const costOfLiving = {{ cost_of_living|safe }};
+        const averageMonthlyIncome = {{ average_monthly_income|safe }};
+        const savingsPercentage = {{ savings_percentage|safe }};
+
+        // Графикон за Education, Healthcare, Transportation
+        const ctx1 = document.getElementById('costOfLivingChart').getContext('2d');
+        new Chart(ctx1, {
+            type: 'line',
+            data: {
+                labels: years,
+                datasets: [
+                    {
+                        label: 'Education Cost Percentage',
+                        data: educationCosts,
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderWidth: 2,
+                        fill: true,
+                    },
+                    {
+                        label: 'Healthcare Cost Percentage',
+                        data: healthcareCosts,
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderWidth: 2,
+                        fill: true,
+                    },
+                    {
+                        label: 'Transportation Cost Percentage',
+                        data: transportationCosts,
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderWidth: 2,
+                        fill: true,
+                    },
+                    {
+                        label: 'Housing Cost Percentage',
+                        data: housingCosts,
+                        borderColor: 'rgba(90, 123, 192, 1)',
+                        backgroundColor: 'rgba(90, 19, 192, 0.2)',
+                        borderWidth: 2,
+                        fill: true,
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Year'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Percentage'
+                        },
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Графикон за Cost of Living
+        const ctx2 = document.getElementById('costOfLivingTrend').getContext('2d');
+        new Chart(ctx2, {
+            type: 'line',
+            data: {
+                labels: years,
+                datasets: [
+                    {
+                        label: 'Cost of Living',
+                        data: costOfLiving,
+                        borderColor: 'rgba(153, 102, 255, 1)',
+                        backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                        borderWidth: 2,
+                        fill: true,
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Year'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Cost (in USD)'
+                        },
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+         // Графикон за Average Monthly Income
+         const ctx3 = document.getElementById('averageMonthlyIncomeChart').getContext('2d');
+         new Chart(ctx3, {
+             type: 'line',
+             data: {
+                 labels: years,
+                 datasets: [
+                     {
+                         label: 'Average Monthly Income',
+                         data: averageMonthlyIncome,
+                         borderColor: 'rgba(255, 159, 64, 1)',
+                         backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                         borderWidth: 2,
+                         fill: true,
+                     }
+                 ]
+             },
+             options: {
+                 responsive: true,
+                 plugins: {
+                     legend: {
+                         display: true,
+                         position: 'top',
+                     }
+                 },
+                 scales: {
+                     x: {
+                         title: {
+                             display: true,
+                             text: 'Year'
+                         }
+                     },
+                     y: {
+                         title: {
+                             display: true,
+                             text: 'Income (in USD)'
+                         },
+                         beginAtZero: true
+                     }
+                 }
+             }
+         });
+         // Графикон за Savings Percentage
+         const ctx4 = document.getElementById('savingsPercentage').getContext('2d');
+         new Chart(ctx4, {
+             type: 'line',
+             data: {
+                 labels: years,
+                 datasets: [
+                     {
+                         label: 'Savings Percentage',
+                         data: savingsPercentage,
+                         borderColor: 'rgba(20, 180, 64, 15)',
+                         backgroundColor: 'rgba(20, 159, 64, 0.2)',
+                         borderWidth: 2,
+                         fill: true,
+                     }
+                 ]
+             },
+             options: {
+                 responsive: true,
+                 plugins: {
+                     legend: {
+                         display: true,
+                         position: 'top',
+                     }
+                 },
+                 scales: {
+                     x: {
+                         title: {
+                             display: true,
+                             text: 'Year'
+                         }
+                     },
+                     y: {
+                         title: {
+                             display: true,
+                             text: 'Savings (in %)'
+                         },
+                         beginAtZero: true
+                     }
+                 }
+             }
+         });
+    </script>
+ 
+{% endblock content %}

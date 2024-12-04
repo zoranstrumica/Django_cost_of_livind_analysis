@@ -1,0 +1,107 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Contact</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+          <li class="breadcrumb-item active">Contact</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section contact">
+
+      <div class="row gy-4">
+
+        <div class="col-xl-6">
+
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="info-box card">
+                <i class="bi bi-geo-alt"></i>
+                <h3>Address</h3>
+                <p>ul. Timo Trancev 12<br>2400 Strumica<br>Macedonia</p>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="info-box card">
+                <i class="bi bi-telephone"></i>
+                <h3>Call Us</h3>
+                <p>+389 71 212 587<br>+389 75 234 375</p>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="info-box card">
+                <i class="bi bi-envelope"></i>
+                <h3>Email Us</h3>
+                <p>zoranstrumica7@gmail.com<br>zoranstrumica11@gmail.com</p>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="info-box card">
+                <i class="bi bi-clock"></i>
+                <h3>Open Hours</h3>
+                <p>We are working online<br>24 / 7</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="col-xl-6">
+          <div class="card p-4">
+            <form action="{% url 'contact' %}" method="post">
+                {% csrf_token %}
+            
+                <div class="row gy-4">
+                    <!-- Full Name Field -->
+                    <div class="col-md-6">
+                        <input type="text" name="full_name" class="form-control" placeholder="Your Name" required>
+                    </div>
+            
+                    <!-- Email Field -->
+                    <div class="col-md-6">
+                        <input type="email" name="email" class="form-control" placeholder="Your Email" required>
+                    </div>
+            
+                    <!-- Subject Field -->
+                    <div class="col-md-12">
+                        <input type="text" name="subject" class="form-control" placeholder="Subject" required>
+                    </div>
+            
+                    <!-- Message Field -->
+                    <div class="col-md-12">
+                        <textarea name="message" class="form-control" rows="6" placeholder="Message" required></textarea>
+                    </div>
+            
+                    <!-- Submit Button -->
+                    <div class="col-md-12 text-center">
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    </div>
+                </div>
+            </form>
+          </div>
+
+        </div>
+                    {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+      </div>
+
+    </section>
+
+  </main><!-- End #main -->
+
+{% endblock content %}
